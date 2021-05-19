@@ -1,6 +1,6 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
-import { notification } from 'antd';
+import { message } from 'antd';
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -23,21 +23,32 @@ const codeMessage = {
  * @en-US Exception handler
  */
 
-const errorHandler = (error) => {
+const errorHandler = async (error) => {
   const { response } = error;
 
   if (response && response.status) {
-    const errorText = codeMessage[response.status] || response.statusText;
+    let errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
-    notification.error({
-      message: `Request error ${status}: ${url}`,
-      description: errorText,
-    });
+
+    const result=await response.json();
+
+    console.log("result:",result);
+
+    if(status === 422){
+      let errs=''
+        for (let key in result.errors){
+          errs+=result.errors[key][0]
+        }
+        errorText+=`[ ${errs}]`
+    }
+
+      if(status === 400){
+          errorText+=`[ ${result.message}]`
+      }
+
+      message.error(errorText);
   } else if (!response) {
-    notification.error({
-      description: 'Your network is abnormal and cannot connect to the server',
-      message: 'Network anomaly',
-    });
+      message.error("网络发生异常，无法连接服务器");
   }
 
   return response;
@@ -51,5 +62,23 @@ const request = extend({
   errorHandler,
   // default error handling
   credentials: 'include', // Does the default request bring cookies
+    prefix:'/api'
+});
+
+// 请求拦截器，在请求之前，添加header头
+request.interceptors.request.use((url, options) => {
+
+    //获取token
+    const token="hello";
+
+    //设置header头
+    const headers={
+        Authorization:`Bearer ${token}`
+    };
+
+    return {
+        url,
+        options: { ...options, headers},
+    };
 });
 export default request;
