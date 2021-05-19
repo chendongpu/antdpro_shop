@@ -2,10 +2,10 @@ import { DefaultFooter, getMenuData, getPageTitle } from '@ant-design/pro-layout
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Link, SelectLang, useIntl, connect, FormattedMessage } from 'umi';
 import React from 'react';
-import logo from '../assets/logo.svg';
-import styles from './UserLayout.less';
+import logo from '../assets/logo.png';
+import styles from './LoginLayout.less';
 
-const UserLayout = (props) => {
+const LoginLayout = (props) => {
   const {
     route = {
       routes: [],
@@ -42,7 +42,7 @@ const UserLayout = (props) => {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <span className={styles.title}>陈东谱</span>
               </Link>
             </div>
             <div className={styles.desc}>
@@ -54,10 +54,13 @@ const UserLayout = (props) => {
           </div>
           {children}
         </div>
-        <DefaultFooter />
+          <DefaultFooter
+              copyright={`${new Date().getFullYear()} 陈东谱`}
+              links={null}
+          />
       </div>
     </HelmetProvider>
   );
 };
 
-export default connect(({ settings }) => ({ ...settings }))(UserLayout);
+export default connect(({ settings }) => ({ ...settings }))(LoginLayout);
