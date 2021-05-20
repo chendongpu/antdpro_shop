@@ -14,10 +14,19 @@ const UserModel = {
     },
 
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+
+      let userInfo=JSON.parse(localStorage.getItem("userInfo"));
+
+
+      if(!userInfo.id){
+          userInfo= yield call(queryCurrent);
+          localStorage.setItem("userInfo",JSON.stringify(userInfo))
+      }
+      console.log("userInfo",userInfo);
+
       yield put({
         type: 'saveCurrentUser',
-        payload: response,
+        payload: userInfo,
       });
     },
   },

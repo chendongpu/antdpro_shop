@@ -3,8 +3,7 @@ export async function query() {
   return request('/api/users');
 }
 export async function queryCurrent() {
-  //return request('/api/currentUser');
-  return request.post('/auth/login');
+  return request('/admin/user');
 
 }
 export async function queryNotices() {
