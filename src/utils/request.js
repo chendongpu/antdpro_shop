@@ -69,7 +69,7 @@ const request = extend({
 request.interceptors.request.use((url, options) => {
 
     //获取token
-    const token="hello";
+    const token=localStorage.getItem('access_token') || '';
 
     //设置header头
     const headers={

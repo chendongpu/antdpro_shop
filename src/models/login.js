@@ -12,10 +12,17 @@ const Model = {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      }); // Login successfully
+
+      if(response.status === undefined){
+          yield put({
+              type: 'changeLoginStatus',
+              payload: response,
+          }); // Login successfully
+
+          history.replace('/');
+      }
+
+
 
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
@@ -61,8 +68,9 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      //setAuthority(payload.currentAuthority);
+        localStorage.setItem('access_token',payload.access_token);
+      return { ...state };
     },
   },
 };
