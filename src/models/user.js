@@ -18,7 +18,7 @@ const UserModel = {
       let userInfo=JSON.parse(localStorage.getItem("userInfo"));
 
 
-      if(!userInfo.id){
+      if(!userInfo){
           userInfo= yield call(queryCurrent);
           localStorage.setItem("userInfo",JSON.stringify(userInfo))
       }

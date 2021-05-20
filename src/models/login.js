@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { fakeAccountLogin } from '@/services/login';
+import { fakeAccountLogin,logout } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
@@ -14,6 +14,7 @@ const Model = {
       const response = yield call(fakeAccountLogin, payload);
 
       if(response.status === undefined){
+          message.success('登录成功！');
           yield put({
               type: 'changeLoginStatus',
               payload: response,
@@ -27,7 +28,7 @@ const Model = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        message.success('🎉 🎉 🎉  登录成功！');
+        message.success('登录成功！');
         let { redirect } = params;
 
         if (redirect) {
@@ -53,17 +54,20 @@ const Model = {
       }
     },
 
-    logout() {
-      const { redirect } = getPageQuery(); // Note: There may be security issues, please note
+    *logout(_,{call}) {
 
-      if (window.location.pathname !== '/user/login' && !redirect) {
-        history.replace({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        });
-      }
+        const  load=message.loading('登出中...');
+
+        const response = yield call(logout);
+
+        if(response.status === undefined){
+
+           localStorage.removeItem('access_token')
+           localStorage.removeItem('userInfo')
+            message.success('登出成功！');
+            history.replace('/login');
+        }
+        load();
     },
   },
   reducers: {
