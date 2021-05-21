@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { PlusOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Avatar, Space, Menu, Switch } from 'antd';
+import { Button, Avatar, message, Menu, Switch } from 'antd';
 import ProTable  from '@ant-design/pro-table';
 import {PageContainer} from '@ant-design/pro-layout';
 import request from 'umi-request';
-import {getUsers} from "../../services/user";
+import {getUsers,lockUser} from "../../services/user";
 
 export default () => {
     const actionRef = useRef();
@@ -33,7 +33,7 @@ export default () => {
                 checkedChildren="开启"
                 unCheckedChildren="关闭"
                 defaultChecked={ record.is_locked===0 }
-                onChange={()=>{}}
+                onChange={()=>{lockData(record.id)}}
             />
         },
         {
@@ -63,6 +63,15 @@ export default () => {
           success:true,
           total:response.meta.pagination.total
       }
+    };
+
+    const lockData=async (uid)=>{
+        const response =  await lockUser(uid);
+        if(response.status===undefined){
+            message.success("操作成功");
+        }else{
+            message.error("操作失败")
+        }
     };
 
     return (
