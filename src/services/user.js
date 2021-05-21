@@ -1,6 +1,6 @@
 import request from '@/utils/request';
-export async function query() {
-  return request('/api/users');
+export async function getUsers(params) {
+  return request('/admin/users',{params});
 }
 export async function queryCurrent() {
   return request('/admin/user');

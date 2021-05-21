@@ -30,8 +30,14 @@ export default [
                   path: '/dashboard',
                   name:'dashboard',
                   icon:'PieChartOutlined',
-                  component:'./DashBoard'
+                  component:'@/pages/DashBoard'
               },
+                {
+                    path: '/user',
+                    name:'user',
+                    icon:'UserOutlined',
+                    component:'@/pages/User'
+                },
               {
                 component: './404',
               },
