@@ -4,8 +4,7 @@ import { Button, Avatar, message, Menu, Switch } from 'antd';
 import ProTable  from '@ant-design/pro-table';
 import {PageContainer} from '@ant-design/pro-layout';
 import {getUsers,lockUser} from "../../services/user";
-import Create from './components/Create';
-import Edit from './components/Edit';
+import CreateOrEdit from './components/CreateOrEdit';
 
 export default () => {
     const actionRef = useRef();
@@ -15,10 +14,7 @@ export default () => {
     const isShowModal = (visible) => {
         setIsModalVisible(visible);
     };
-  const [isModalVisible2, setIsModalVisible2] = useState(false);
-    const isShowModal2 = (visible) => {
-        setIsModalVisible2(visible);
-    };
+
     const [uid, setUid] = useState(undefined);
 
     const columns = [
@@ -57,7 +53,7 @@ export default () => {
             title: '操作',
             hideInSearch: true,
             render:(_,record)=><a onClick={()=>{
-                    isShowModal2(true);
+                    isShowModal(true);
                     setUid(record.id);
                 }
             }>编辑</a>
@@ -107,14 +103,13 @@ export default () => {
             dateFormatter="string"
             headerTitle="高级表格"
             toolBarRender={() => [
-                    <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{isShowModal(true)}} >
+                    <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{isShowModal(true);setUid(undefined);}} >
                         新建
                     </Button>
                 ]
             }
             />
-            <Create isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef}/>
-            {isModalVisible2?<Edit isModalVisible2={isModalVisible2} isShowModal2={isShowModal2} actionRef={actionRef} uid={uid}/>:""}
+            {isModalVisible?<CreateOrEdit isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef} uid={uid}/>:""}
         </PageContainer>
     );
 }
