@@ -15,3 +15,6 @@ export async function queryNotices() {
 export async function lockUser(uid) {
     return request.patch(`/admin/users/${uid}/lock`);
 }
+export async function addUser(params) {
+    return request.post('/admin/users',{params});
+}
