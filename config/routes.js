@@ -38,6 +38,12 @@ export default [
                     icon:'UserOutlined',
                     component:'@/pages/User'
                 },
+                {
+                    path: '/goods',
+                    name:'goods',
+                    icon:'UserOutlined',
+                    component:'@/pages/Goods'
+                },
               {
                 component: './404',
               },
