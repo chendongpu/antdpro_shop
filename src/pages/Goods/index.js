@@ -3,7 +3,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Menu, Switch,Image } from 'antd';
 import ProTable  from '@ant-design/pro-table';
 import {PageContainer} from '@ant-design/pro-layout';
-import {getGoods} from "../../services/goods";
+import {getGoods,isOn,isRecommend} from "../../services/goods";
 
 export default () => {
     const actionRef = useRef();
@@ -49,7 +49,7 @@ export default () => {
                 unCheckedChildren="下架"
                 defaultChecked={ record.is_on===1 }
                 onChange={()=>{
-                       // lockData(record.id);
+                        handleIsOn(record.id);
                     }
                 }
             />
@@ -66,7 +66,7 @@ export default () => {
                 checkedChildren="已推荐"
                 unCheckedChildren="未推荐"
                 defaultChecked={ record.is_recommend===1 }
-                onChange={()=>{}}
+                onChange={()=>{handleIsRecommend(record.id);}}
             />
         },
         {
@@ -96,6 +96,24 @@ export default () => {
           success:true,
           total:response.meta.pagination.total
       }
+    };
+
+      const handleIsOn=async (goodsid)=>{
+        const response =  await isOn(goodsid);
+        if(response.status===undefined){
+            message.success("操作成功");
+        }else{
+            message.error("操作失败")
+        }
+    };
+
+     const handleIsRecommend=async (goodsid)=>{
+        const response =  await isRecommend(goodsid);
+        if(response.status===undefined){
+            message.success("操作成功");
+        }else{
+            message.error("操作失败")
+        }
     };
     
 
