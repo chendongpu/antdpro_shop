@@ -18,3 +18,10 @@ export async function lockUser(uid) {
 export async function addUser(params) {
     return request.post('/admin/users',{params});
 }
+export async function updateUser(uid,params) {
+    return request.put(`/admin/users/${uid}`,{params});
+}
+
+export async function getUser(uid) {
+    return request.get(`/admin/users/${uid}`);
+}

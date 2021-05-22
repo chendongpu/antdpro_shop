@@ -5,6 +5,7 @@ import ProTable  from '@ant-design/pro-table';
 import {PageContainer} from '@ant-design/pro-layout';
 import {getUsers,lockUser} from "../../services/user";
 import Create from './components/Create';
+import Edit from './components/Edit';
 
 export default () => {
     const actionRef = useRef();
@@ -14,7 +15,11 @@ export default () => {
     const isShowModal = (visible) => {
         setIsModalVisible(visible);
     };
-
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+    const isShowModal2 = (visible) => {
+        setIsModalVisible2(visible);
+    };
+    const [uid, setUid] = useState(undefined);
 
     const columns = [
 
@@ -51,7 +56,11 @@ export default () => {
         {
             title: '操作',
             hideInSearch: true,
-            render:(_,record)=><a onChange={()=>{}}>编辑</a>
+            render:(_,record)=><a onClick={()=>{
+                    isShowModal2(true);
+                    setUid(record.id);
+                }
+            }>编辑</a>
         }
     ];
 
@@ -105,6 +114,7 @@ export default () => {
             }
             />
             <Create isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef}/>
+            {isModalVisible2?<Edit isModalVisible2={isModalVisible2} isShowModal2={isShowModal2} actionRef={actionRef} uid={uid}/>:""}
         </PageContainer>
     );
 }
