@@ -4,9 +4,19 @@ import { Button, message, Menu, Switch,Image } from 'antd';
 import ProTable  from '@ant-design/pro-table';
 import {PageContainer} from '@ant-design/pro-layout';
 import {getGoods,isOn,isRecommend} from "../../services/goods";
+import CreateOrEdit from './components/CreateOrEdit';
 
 export default () => {
     const actionRef = useRef();
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const isShowModal = (visible) => {
+        setIsModalVisible(visible);
+    };
+
+    const [uid, setUid] = useState(undefined);
+
     const columns = [
 
         {
@@ -134,12 +144,13 @@ export default () => {
             dateFormatter="string"
             headerTitle="高级表格"
             toolBarRender={() => [
-                    <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{}} >
+                     <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{isShowModal(true);setUid(undefined);}} >
                         新建
                     </Button>
                 ]
             }
             />
+            {isModalVisible?<CreateOrEdit isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef} uid={uid}/>:""}
         </PageContainer>
     );
 }
