@@ -1,13 +1,19 @@
 import React, { useEffect,useState } from 'react';
-import { message,Modal ,Skeleton,Cascader} from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { message,Modal ,Skeleton,Cascader,Button} from 'antd';
 import {addUser,updateUser,getUser} from "@/services/user";
 import {getCategory} from "@/services/category";
 import ProForm, { ProFormText,ProFormTextArea,ProFormDigit,ProFormUploadButton } from '@ant-design/pro-form';
+import AliyunOSSUpload from '@/components/AliyunOSSUpload'
 
 const CreateOrEdit=(props)=>{
 
 	const [initialValues, setInitialValues] = useState(undefined);
 	const [options, setOptions] = useState(undefined);
+
+	const [form]=ProForm.useForm();
+
+	const setCoverKey = fileKey=>form.setFieldsValue({'cover':fileKey});
 
 	const {isModalVisible,isShowModal,actionRef,uid}=props;
 
@@ -47,7 +53,9 @@ const CreateOrEdit=(props)=>{
 	 return  (
 	 	<Modal title={uid===undefined?"添加商品":"编辑商品"} visible={isModalVisible} onCancel={()=>isShowModal(false)} footer={null} destoryOnClose={true}>
 	         {
-	 			initialValues ===undefined && uid!=undefined?<Skeleton active={true} paragrah={{row:4}} />: <ProForm onFinish={(values)=>{
+	 			initialValues ===undefined && uid!=undefined?<Skeleton active={true} paragrah={{row:4}} />: <ProForm form={form} onFinish={(values)=>{
+	 					console.log("values:",values);
+	 					return;
 	 					if(uid===undefined){
 							createUser(values);
 	 					}else{
@@ -60,12 +68,22 @@ const CreateOrEdit=(props)=>{
 	 		    <ProForm.Item  	name="category_id"	label="分类" rules={[{required:true,message:"请选择分类"}]} >
 	 		    	<Cascader fieldNames={{label:'name',value:'id'}} options={options} placeholder="请选择分类"/>
 	 		    </ProForm.Item>
-	                    <ProFormText name="category" label="分类" placeholder="请输入分类" rules={[{required:true,message:"请输入分类"}]} />
 	                    <ProFormText name="title" label="商品名" placeholder="请输入商品名" rules={[{required:true,message:"请输入商品名"}]} />
 	                    <ProFormTextArea name="description" label="描述" placeholder="请输入描述" rules={[{required:true,message:"请输入描述"}]} />
 	                    <ProFormDigit name="price" label="价格" placeholder="请输入价格" min={0} max={99999999} rules={[{required:true,message:"请输入价格"}]} />
 	                    <ProFormDigit name="stock" label="库存" placeholder="请输入库存" min={0} max={99999999} rules={[{required:true,message:"请输入库存"}]} />
-	                    <ProFormUploadButton name="cover" label="上传" action="upload.do" rules={[{required:true,message:"请选择商品图片"}]} />
+	                    
+	                    <ProForm.Item  	name="cover"	label="商品主图" rules={[{required:true,message:"请选择商品图片"}]} >
+	                   	<div>
+	 		    	 <AliyunOSSUpload  accept="image/*" setCoverKey={setCoverKey}>
+	 		    	 	<Button key="button" icon={<UploadOutlined />}  >
+			                        点击上传商品主图
+			                </Button>
+	 		    	 </AliyunOSSUpload>
+	 		    	 </div>
+	 		    </ProForm.Item>
+	                   
+
 	                    <ProFormTextArea name="detail" label="详情" placeholder="请输入详情" rules={[{required:true,message:"请输入详情"}]} />
 	                </ProForm>
 	 		}
