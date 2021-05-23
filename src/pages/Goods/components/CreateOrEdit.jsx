@@ -5,6 +5,7 @@ import {addUser,updateUser,getUser} from "@/services/user";
 import {getCategory} from "@/services/category";
 import ProForm, { ProFormText,ProFormTextArea,ProFormDigit,ProFormUploadButton } from '@ant-design/pro-form';
 import AliyunOSSUpload from '@/components/AliyunOSSUpload'
+import Editor from '@/components/Editor'
 
 const CreateOrEdit=(props)=>{
 
@@ -14,6 +15,8 @@ const CreateOrEdit=(props)=>{
 	const [form]=ProForm.useForm();
 
 	const setCoverKey = fileKey=>form.setFieldsValue({'cover':fileKey});
+
+	const setDetails = content=>form.setFieldsValue({'details':content});
 
 	const {isModalVisible,isShowModal,actionRef,uid}=props;
 
@@ -84,7 +87,10 @@ const CreateOrEdit=(props)=>{
 	 		    </ProForm.Item>
 	                   
 
-	                    <ProFormTextArea name="detail" label="详情" placeholder="请输入详情" rules={[{required:true,message:"请输入详情"}]} />
+ 			  <ProForm.Item  	name="details"	label="详情" rules={[{required:true,message:"请输入详情"}]} >
+	                   	<Editor setDetails={setDetails} />
+	 		 </ProForm.Item>
+
 	                </ProForm>
 	 		}
 	               
