@@ -7,7 +7,8 @@ import BraftEditor from 'braft-editor'
 // 引入编辑器样式
 
 import './index.less'
-
+import AliyunOSSUpload from "../AliyunOSSUpload";
+import { ContentUtils } from 'braft-utils'
 
 export default class Editor extends React.Component {
 
@@ -38,17 +39,6 @@ export default class Editor extends React.Component {
     // }
 
 
-    // submitContent = async () => {
-
-    //     // 在编辑器获得焦点时按下ctrl+s会执行此方法
-
-    //     // 编辑器内容提交到服务端之前，可直接调用editorState.toHTML()来获取HTML格式的内容
-
-    //     const htmlContent = this.state.editorState.toHTML()
-
-    //     const result = await saveEditorContent(htmlContent)
-
-    // }
 
 
     handleEditorChange = (editorState) => {
@@ -66,11 +56,40 @@ export default class Editor extends React.Component {
 
     }
 
+    insertImage=(url)=>{
+        this.setState({
+            editorState: ContentUtils.insertMedias(this.state.editorState, [{
+                type: 'IMAGE',
+                url: url
+            }])
+        })
+    }
 
     render () {
 
 
         const { editorState } = this.state
+
+        const setCoverKey = fileKey=>form.setFieldsValue({'cover':fileKey});
+
+        const extendControls = [
+            {
+                key: 'antd-uploader',
+                type: 'component',
+                component: (
+                    <AliyunOSSUpload
+                        accept="image/*"
+                        showUploadList={false}
+                        insertImage={this.insertImage}
+                    >
+                        {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
+                        <button type="button" className="control-item button upload-button">
+                            插入图片
+                        </button>
+                    </AliyunOSSUpload>
+                )
+            }
+        ];
 
         return (
 
@@ -82,7 +101,7 @@ export default class Editor extends React.Component {
 
                     onChange={this.handleEditorChange}
 
-                    //onSave={this.submitContent}
+                    extendControls={extendControls}
 
                 />
 

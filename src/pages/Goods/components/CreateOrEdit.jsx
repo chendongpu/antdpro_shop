@@ -78,7 +78,7 @@ const CreateOrEdit=(props)=>{
 	                    
 	                    <ProForm.Item  	name="cover"	label="商品主图" rules={[{required:true,message:"请选择商品图片"}]} >
 	                   	<div>
-	 		    	 <AliyunOSSUpload  accept="image/*" setCoverKey={setCoverKey}>
+	 		    	 <AliyunOSSUpload  accept="image/*" setCoverKey={setCoverKey}  showUploadList={true}>
 	 		    	 	<Button key="button" icon={<UploadOutlined />}  >
 			                        点击上传商品主图
 			                </Button>
