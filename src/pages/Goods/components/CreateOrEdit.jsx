@@ -1,7 +1,8 @@
 import React, { useEffect,useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { message,Modal ,Skeleton,Cascader,Button} from 'antd';
-import {addUser,updateUser,getUser} from "@/services/user";
+import {updateUser,getUser} from "@/services/user";
+import {addGoods} from "@/services/goods";
 import {getCategory} from "@/services/category";
 import ProForm, { ProFormText,ProFormTextArea,ProFormDigit,ProFormUploadButton } from '@ant-design/pro-form';
 import AliyunOSSUpload from '@/components/AliyunOSSUpload'
@@ -44,8 +45,8 @@ const CreateOrEdit=(props)=>{
 	        }
 
 	 };
-	 const createUser =async (values) => {
-	        const response =  await addUser(values);
+	 const createGoods =async (values) => {
+	        const response =  await addGoods(values);
 	        if(response.status===undefined){
 	            message.success("操作成功");
 	            actionRef.current.reload();
@@ -58,9 +59,8 @@ const CreateOrEdit=(props)=>{
 	         {
 	 			initialValues ===undefined && uid!=undefined?<Skeleton active={true} paragrah={{row:4}} />: <ProForm form={form} onFinish={(values)=>{
 	 					console.log("values:",values);
-	 					return;
 	 					if(uid===undefined){
-							createUser(values);
+							createGoods({...values,category_id:values.category_id[1]});
 	 					}else{
 	 						EditUser(values);
 	 					}

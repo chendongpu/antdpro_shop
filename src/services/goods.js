@@ -10,3 +10,6 @@ export async function isOn(goodsid) {
 export async function isRecommend(goodsid) {
     return request.patch(`/admin/goods/${goodsid}/recommend`);
 }
+export async function addGoods(params) {
+    return request.post('/admin/goods',{params});
+}
