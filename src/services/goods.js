@@ -13,3 +13,11 @@ export async function isRecommend(goodsid) {
 export async function addGoods(params) {
     return request.post('/admin/goods',{params});
 }
+
+export async function showGoods(id) {
+    return request.get(`/admin/goods/${id}?include=category`);
+}
+
+export async function updateGoods(id,params) {
+    return request.put(`/admin/goods/${id}`,{params});
+}

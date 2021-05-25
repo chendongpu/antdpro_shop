@@ -17,7 +17,7 @@ export default class Editor extends React.Component {
 
         // 创建一个空的editorState作为初始值
 
-        editorState: BraftEditor.createEditorState(null)
+        editorState: BraftEditor.createEditorState(this.props.content ?? null)
 
     }
 

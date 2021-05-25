@@ -15,7 +15,7 @@ export default () => {
         setIsModalVisible(visible);
     };
 
-    const [uid, setUid] = useState(undefined);
+    const [id, setId] = useState(undefined);
 
     const columns = [
 
@@ -87,7 +87,10 @@ export default () => {
         {
             title: '操作',
             hideInSearch: true,
-            render:(_,record)=><a onClick={()=>{}
+            render:(_,record)=><a onClick={()=>{
+                isShowModal(true);
+                setId(record.id);
+            }
             }>编辑</a>
         }
     ];
@@ -144,13 +147,13 @@ export default () => {
             dateFormatter="string"
             headerTitle="高级表格"
             toolBarRender={() => [
-                     <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{isShowModal(true);setUid(undefined);}} >
+                     <Button key="button" icon={<PlusOutlined />} type="primary" onClick={()=>{isShowModal(true);setId(undefined);}} >
                         新建
                     </Button>
                 ]
             }
             />
-            {isModalVisible?<CreateOrEdit isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef} uid={uid}/>:""}
+            {isModalVisible?<CreateOrEdit isModalVisible={isModalVisible} isShowModal={isShowModal} actionRef={actionRef} id={id}/>:""}
         </PageContainer>
     );
 }
