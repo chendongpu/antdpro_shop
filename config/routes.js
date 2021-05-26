@@ -44,6 +44,12 @@ export default [
                     icon:'UserOutlined',
                     component:'@/pages/Goods'
                 },
+                 {
+                    path: '/cateory',
+                    name:'category',
+                    icon:'UserOutlined',
+                    component:'@/pages/Category'
+                },
               {
                 component: './404',
               },
