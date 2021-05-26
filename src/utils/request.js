@@ -1,6 +1,7 @@
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
 import { extend } from 'umi-request';
 import { message } from 'antd';
+import {history} from "umi";
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -41,6 +42,13 @@ const errorHandler = async (error) => {
         }
         errorText+=`[ ${errs}]`
     }
+
+      if(status === 401){
+          errorText+=`[ ${result.message}]`;
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('userInfo');
+          history.replace('/login');
+      }
 
       if(status === 400){
           errorText+=`[ ${result.message}]`

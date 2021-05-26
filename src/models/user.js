@@ -20,7 +20,10 @@ const UserModel = {
 
       if(!userInfo){
           userInfo= yield call(queryCurrent);
-          localStorage.setItem("userInfo",JSON.stringify(userInfo))
+          if(userInfo.id!==undefined){
+              localStorage.setItem("userInfo",JSON.stringify(userInfo))
+          }
+
       }
       console.log("userInfo",userInfo);
 
