@@ -50,6 +50,12 @@ export default [
                     icon:'UserOutlined',
                     component:'@/pages/Category'
                 },
+                {
+                    path: '/orders',
+                    name:'orders',
+                    icon:'UserOutlined',
+                    component:'@/pages/Orders'
+                },
               {
                 component: './404',
               },
