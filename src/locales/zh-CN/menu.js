@@ -52,4 +52,5 @@ export default {
   'menu.goods': ' 商品管理',
   'menu.category': ' 分类管理',
     'menu.orders': '订单管理',
+    'menu.slides': '轮播管理',
 };

@@ -56,6 +56,12 @@ export default [
                     icon:'UserOutlined',
                     component:'@/pages/Orders'
                 },
+                {
+                    path: '/slides',
+                    name:'slides',
+                    icon:'UserOutlined',
+                    component:'@/pages/Slides'
+                },
               {
                 component: './404',
               },
