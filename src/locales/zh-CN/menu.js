@@ -53,4 +53,5 @@ export default {
   'menu.category': ' 分类管理',
     'menu.orders': '订单管理',
     'menu.slides': '轮播管理',
+        'menu.comments': '评价管理',
 };

@@ -62,6 +62,12 @@ export default [
                     icon:'UserOutlined',
                     component:'@/pages/Slides'
                 },
+                 {
+                    path: '/comments',
+                    name:'comments',
+                    icon:'UserOutlined',
+                    component:'@/pages/Comments'
+                },
               {
                 component: './404',
               },
